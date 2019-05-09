@@ -14,11 +14,9 @@ def breakcloud(cloud):
     plain_text = []
 
     # iterate over all the cipher_text till position (counter) will overflow the cipher_text length
-    while True:
-        cipher_byte = cloud.write(position, ZERO_BYTE)  # get cipher byte and write ZERO_BYTE
-        decrypted_zero_byte = cloud.read(position)  # read decrypted ZERO_BYTE which value is F(k, CTR)
-        if not cipher_byte or not decrypted_zero_byte:  # output check
-            break
+    while position < cloud.Length():
+        cipher_byte = cloud.Write(position, ZERO_BYTE)  # get cipher byte and write ZERO_BYTE
+        decrypted_zero_byte = cloud.Read(position)  # read decrypted ZERO_BYTE which value is F(k, CTR)
 
         # plain_byte = F(k, CTR) xor cipher_byte
         plain_text.append(chr(ord(decrypted_zero_byte) ^ ord(cipher_byte)))
